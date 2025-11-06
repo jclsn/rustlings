@@ -8,9 +8,7 @@
 // Execute `rustlings hint lifetimes1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
-fn longest(x: &str, y: &str) -> &str {
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() {
         x
     } else {
@@ -19,9 +17,16 @@ fn longest(x: &str, y: &str) -> &str {
 }
 
 fn main() {
-    let string1 = String::from("abcd");
-    let string2 = "xyz";
+    let string1 = String::from("long string is long");
+    let result;
 
-    let result = longest(string1.as_str(), string2);
+    {
+        let string2 = String::from("xyz"); // lives until the end of the scope
+        let string2_literal ="xyz"; // String literals live "forever" -> static lifetime
+
+        // result = longest(string1.as_str(), string2.as_str());
+        result = longest(string1.as_str(), string2_literal);
+    }
+
     println!("The longest string is '{}'", result);
 }
